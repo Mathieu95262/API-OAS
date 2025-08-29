@@ -20,7 +20,7 @@ paths:
             type: integer
             default: 20
       responses:
-        '200':
+  '200':
           description: Liste des utilisateurs retrouvés
           content:
             application/json:
@@ -40,4 +40,15 @@ paths:
                   - id: 1
                     name: Mathieu
                     email: mathieu@example.com
-        
+  '400' : 
+  description: Mauvais type de paramètre fournis
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          error:
+            type: string
+        required: [error]
+        example:
+          error: Bad types for provided query parameters
