@@ -5,10 +5,10 @@ info:
 paths:
   /ping:
     get:
-      summary: Répond "pong" pour vérifier que l'API fonctionne.
-      responses: 
-      200:
-          description: Succès, retourne "pong"
+      summary: retourne"pong" si ça fonctionne.
+      responses:
+        200:
+          description: retourne "pong"
           content:
             text/plain:
               schema:
