@@ -46,3 +46,16 @@ paths:
                     - name
                     - expiration_datetime
                     - price
+              examples:
+                multipleProducts:
+                  summary: Plusieurs produits trouvés
+                  value:
+                    - name: "Lait entier"
+                      expiration_datetime: "2025-09-15T12:00:00Z"
+                      price: 2.5
+                    - name: "Fromage"
+                      expiration_datetime: "2025-10-01T12:00:00Z"
+                      price: 5.0
+                emptyList:
+                  summary: Aucun produit trouvé
+                  value: []
