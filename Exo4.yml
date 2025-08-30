@@ -1,0 +1,48 @@
+openapi: 3.0.0
+info:
+  title: gestion de produits
+  version: 1.0.0
+paths:
+  /products:
+    get:
+      summary: Recherche de produits
+      parameters:
+        - name: limit
+          in: query
+          description: Nombre maximum d’éléments à retourner
+          required: false
+          schema:
+            type: integer
+            example: 10
+        - name: q
+          in: query
+          description: Terme de recherche
+          required: false
+          schema:
+            type: string
+            example: "lait"
+      responses:
+        '200':
+          description: Liste de produits correspondant aux critères
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: "Lait entier"
+                    expiration_datetime:
+                      type: string
+                      format: date-time
+                      example: "2025-09-15T12:00:00Z"
+                    price:
+                      type: number
+                      format: float
+                      example: 2.5
+                  required:
+                    - name
+                    - expiration_datetime
+                    - price
