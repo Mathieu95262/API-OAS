@@ -1,0 +1,175 @@
+openapi: 3.0.0
+info:
+  title: Gestion Produits et Commandes
+  version: 1.0.0
+  description: Exemple API avec authentification Basic et tags
+
+tags:
+  - name: Products
+    description: Opérations liées aux produits
+  - name: Orders
+    description: Opérations liées aux commandes
+
+paths:
+  /products:
+    get:
+      tags:
+        - Products
+      summary: Liste tous les produits
+      responses:
+        '200':
+          description: Liste des produits
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    price:
+                      type: number
+                      format: float
+                  required:
+                    - id
+                    - name
+                    - price
+              examples:
+                example1:
+                  value:
+                    - id: 1
+                      name: "Ordinateur portable"
+                      price: 1200.5
+                    - id: 2
+                      name: "Clavier"
+                      price: 50.0
+
+  /orders:
+    get:
+      tags:
+        - Orders
+      summary: Liste paginée des commandes
+      parameters:
+        - name: page
+          in: query
+          description: Numéro de la page
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: size
+          in: query
+          description: Taille de la page
+          required: false
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Liste paginée des commandes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    identifier:
+                      type: integer
+                    customer_name:
+                      type: string
+                    creation_datetime:
+                      type: string
+                      format: date-time
+                    total_amount:
+                      type: number
+                      format: float
+                  required:
+                    - identifier
+                    - customer_name
+                    - creation_datetime
+                    - total_amount
+              examples:
+                example1:
+                  value:
+                    - identifier: 101
+                      customer_name: "Alice"
+                      creation_datetime: "2025-08-29T14:35:00Z"
+                      total_amount: 300.5
+                    - identifier: 102
+                      customer_name: "Bob"
+                      creation_datetime: "2025-08-28T10:20:00Z"
+                      total_amount: 150.0
+
+    post:
+      tags:
+        - Orders
+      summary: Crée une commande
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customer_name:
+                  type: string
+                creation_datetime:
+                  type: string
+                  format: date-time
+                total_amount:
+                  type: number
+                  format: float
+              required:
+                - customer_name
+                - creation_datetime
+                - total_amount
+            examples:
+              newOrder:
+                value:
+                  customer_name: "Charlie"
+                  creation_datetime: "2025-08-29T15:00:00Z"
+                  total_amount: 450.75
+      responses:
+        '201':
+          description: Commande créée avec succès
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  identifier:
+                    type: integer
+                  customer_name:
+                    type: string
+                  creation_datetime:
+                    type: string
+                    format: date-time
+                  total_amount:
+                    type: number
+                    format: float
+                required:
+                  - identifier
+                  - customer_name
+                  - creation_datetime
+                  - total_amount
+              examples:
+                createdOrder:
+                  value:
+                    identifier: 103
+                    customer_name: "Charlie"
+                    creation_datetime: "2025-08-29T15:00:00Z"
+                    total_amount: 450.75
+        '401':
+          description: Non autorisé – authentification requise
+
+components:
+  securitySchemes:
+  basicAuth:
+  type: http
+  scheme: basic
